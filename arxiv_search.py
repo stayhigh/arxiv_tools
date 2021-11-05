@@ -12,9 +12,9 @@ logging.basicConfig(level=logging.INFO)
 
 # Command line arguments
 parser = argparse.ArgumentParser(description='Arguments')
-parser.add_argument('--kw', type=str, help="""Keyword to be searched. Use double quote followed by simple quote to search for an exact keyword. Example: "'exact keyword'" """)
-parser.add_argument('--sort_order', default=arxiv.SortOrder.Descending, type=type(arxiv.SortOrder.Descending), help='Column to be sorted by. Default is by the columns "Citations", i.e., it will be sorted by the number of citations. If you want to sort by citations per year, use --sortby "cit/year"')
-parser.add_argument('--sort_by', default=arxiv.SortCriterion.SubmittedDate, type=type(arxiv.SortCriterion.SubmittedDate), help='sort by')
+parser.add_argument('--kw', type=str, required=True, help="""Keyword to be searched. Use double quote followed by simple quote to search for an exact keyword. Example: "'exact keyword'" """)
+parser.add_argument('--sort_order', default=arxiv.SortOrder.Descending, type=type(arxiv.SortOrder.Descending), help='Column to be sorted by. Default is by the columns "Descending"')
+parser.add_argument('--sort_by', default=arxiv.SortCriterion.Relevance, type=type(arxiv.SortCriterion.Relevance), help='sort by Relevance')
 parser.add_argument('--outdir', default=os.path.join(os.path.dirname(__file__), './papers'), type=str, help='output dir')
 parser.add_argument('--download', action="store_true", help='enable download if True')
 parser.add_argument('--nresults', default=10, type=int, help='Number of articles to search on arxiv. Default is 10. (carefull with robot checking if value is too high)')
@@ -27,12 +27,17 @@ parser.add_argument('--nresults', default=10, type=int, help='Number of articles
 #parser.add_argument('--debug', action='store_true', help='Debug mode. Used for unit testing. It will get pages stored on web archive')
 
 # Parse and read arguments and assign them to variables if exists
-args, _ = parser.parse_known_args()
+try:
+    args, _ = parser.parse_known_args()
+except:
+    parser.print_help()
+    sys.exit(0)
+
 
 search = arxiv.Search(
   query=args.kw,
   max_results=args.nresults,
-  sort_by=args.sort_by,       # arxiv.SortCriterion.SubmittedDate,
+  sort_by=args.sort_by,       # arxiv.SortCriterion.Relevance,
   sort_order=args.sort_order  # sort_order = arxiv.SortOrder.Descending
 )
 
