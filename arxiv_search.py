@@ -17,7 +17,7 @@ parser.add_argument('--sort_order', default=arxiv.SortOrder.Descending, type=typ
 parser.add_argument('--sort_by', default=arxiv.SortCriterion.Relevance, type=type(arxiv.SortCriterion.Relevance), help='sort by Relevance')
 parser.add_argument('--outdir', default=os.path.join(os.path.dirname(__file__), './papers'), type=str, help='output dir')
 parser.add_argument('--download', action="store_true", help='enable download if True')
-parser.add_argument('--nresults', default=10, type=int, help='Number of articles to search on arxiv. Default is 10. (carefull with robot checking if value is too high)')
+parser.add_argument('-n', '--nresults', default=10, type=int, help='Number of articles to search on arxiv. Default is 10. (carefull with robot checking if value is too high)')
 
 #parser.add_argument('--csvpath', type=str, help='Path to save the exported csv file. By default it is the current folder')
 #parser.add_argument('--notsavecsv', action='store_true', help='By default results are going to be exported to a csv file. Select this option to just print results but not store them')
